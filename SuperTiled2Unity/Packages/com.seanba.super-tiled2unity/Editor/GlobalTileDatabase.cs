@@ -4,7 +4,7 @@ namespace SuperTiled2Unity.Editor
 {
     public class GlobalTileDatabase
     {
-        private Dictionary<int, SuperTile> m_Tiles = new Dictionary<int, SuperTile>();
+        public Dictionary<int, SuperTile> m_Tiles = new Dictionary<int, SuperTile>();
 
         public void RegisterTileset(int firstId, SuperTileset tileset)
         {

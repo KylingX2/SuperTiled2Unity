@@ -5,6 +5,13 @@ using UnityEngine.Tilemaps;
 
 namespace SuperTiled2Unity
 {
+    public interface ISuperTileProxy
+    {
+        void GetTileData(SuperTile superTile, Vector3Int position, ITilemap tilemap, ref TileData tileData);
+
+        bool GetTileAnimationData(SuperTile superTile, Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData);
+    }
+
     public class SuperTile : TileBase
     {
         private static readonly Matrix4x4 HorizontalFlipMatrix = MatrixUtils.Rotate2d(-1, 0, 0, 1);
@@ -49,6 +56,8 @@ namespace SuperTiled2Unity
         public List<CustomProperty> m_CustomProperties;
 
         public List<CollisionObject> m_CollisionObjects;
+
+        public ISuperTileProxy m_SuperTileProxy;
 
         public Matrix4x4 GetTransformMatrix(FlipFlags flipFlags, SuperMap superMap)
         {
@@ -178,26 +187,25 @@ namespace SuperTiled2Unity
 
         public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
         {
+            if (m_SuperTileProxy != null)
+            {
+                m_SuperTileProxy.GetTileData(this, position, tilemap, tileData);
+                return;
+            }
             tileData.sprite = m_Sprite;
         }
 
         public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData)
         {
+            if (m_SuperTileProxy != null)
+            {
+                return m_SuperTileProxy.GetTileAnimationData(this, position, tilemap, tileAnimationData);
+            }
+
             if (m_AnimationSprites != null && m_AnimationSprites.Length > 1)
             {
                 tileAnimationData.animatedSprites = m_AnimationSprites;
-                var tileDataSupplier = MySuperTileDataSupplier.Instance;
-                var animationSpeed = 1.0f;
-                if (tileDataSupplier != null)
-                {
-                    animationSpeed = tileDataSupplier.GetSuperTileAnimationSpeed(m_TileId, tilemap);
-                    Debug.Log("animationSpeed: " + animationSpeed);
-                }
-                else
-                {
-                    Debug.Log("MySuperTileDataSupplier.Instance is null");
-                }
-                tileAnimationData.animationSpeed = animationSpeed;
+                tileAnimationData.animationSpeed = 1.0f;
                 tileAnimationData.animationStartTime = 0;
                 return true;
             }
