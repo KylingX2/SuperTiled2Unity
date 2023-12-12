@@ -1,17 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace SuperTiled2Unity
 {
-    public interface ISuperTileProxy
-    {
-        void GetTileData(SuperTile superTile, Vector3Int position, ITilemap tilemap, ref TileData tileData);
-
-        bool GetTileAnimationData(SuperTile superTile, Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData);
-    }
-
     public class SuperTile : TileBase
     {
         private static readonly Matrix4x4 HorizontalFlipMatrix = MatrixUtils.Rotate2d(-1, 0, 0, 1);
@@ -187,29 +181,44 @@ namespace SuperTiled2Unity
 
         public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
         {
-            if (m_SuperTileProxy != null)
-            {
-                m_SuperTileProxy.GetTileData(this, position, tilemap, ref tileData);
-                return;
-            }
             tileData.sprite = m_Sprite;
         }
 
         public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData)
         {
-            if (m_SuperTileProxy != null)
-            {
-                return m_SuperTileProxy.GetTileAnimationData(this, position, tilemap, ref tileAnimationData);
-            }
-
             if (m_AnimationSprites != null && m_AnimationSprites.Length > 1)
             {
                 tileAnimationData.animatedSprites = m_AnimationSprites;
-                tileAnimationData.animationSpeed = 1.0f;
+                var minAnimSpeed = GetCustomPropertyValueAsFloatOrDefault("MinAnimSpeed", 1.0f);
+                var maxAnimSpeed = GetCustomPropertyValueAsFloatOrDefault("MaxAnimSpeed", 1.0f);
+                var animSpeed = Random.Range(minAnimSpeed, maxAnimSpeed);
                 tileAnimationData.animationStartTime = 0;
                 return true;
             }
             return false;
+        }
+
+        protected float GetCustomPropertyValueAsFloatOrDefault(string name, float defaultValue)
+        {
+            var customProperty = GetCustomProperty(name);
+            if (customProperty == null)
+            {
+                return defaultValue;
+            }
+            return customProperty.GetValueAsFloat();
+        }
+
+        protected CustomProperty GetCustomProperty(string name)
+        {
+            for (var i = 0; i < m_CustomProperties.Count; i++)
+            {
+                var customProperty = m_CustomProperties[i];
+                if (customProperty.m_Name == name)
+                {
+                    return customProperty;
+                }
+            }
+            return null;
         }
 
         private Matrix4x4 CalculateTileOffsetMatrix()
