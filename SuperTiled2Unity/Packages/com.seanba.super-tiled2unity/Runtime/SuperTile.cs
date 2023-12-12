@@ -51,8 +51,6 @@ namespace SuperTiled2Unity
 
         public List<CollisionObject> m_CollisionObjects;
 
-        public ISuperTileProxy m_SuperTileProxy;
-
         public Matrix4x4 GetTransformMatrix(FlipFlags flipFlags, SuperMap superMap)
         {
             if (m_TileRenderSize == TileRenderSize.Tile && m_TileOffsetX == 0 && m_TileOffsetY == 0 && flipFlags == FlipFlags.None)
