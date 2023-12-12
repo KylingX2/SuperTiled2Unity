@@ -189,7 +189,7 @@ namespace SuperTiled2Unity
                 tileAnimationData.animatedSprites = m_AnimationSprites;
                 var minAnimSpeed = GetCustomPropertyValueAsFloatOrDefault("MinAnimSpeed", 1.0f);
                 var maxAnimSpeed = GetCustomPropertyValueAsFloatOrDefault("MaxAnimSpeed", 1.0f);
-                var animSpeed = Random.Range(minAnimSpeed, maxAnimSpeed);
+                var animSpeed = UnityEngine.Random.Range(minAnimSpeed, maxAnimSpeed);
                 tileAnimationData.animationStartTime = 0;
                 return true;
             }
