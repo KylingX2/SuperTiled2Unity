@@ -189,7 +189,7 @@ namespace SuperTiled2Unity
         {
             if (m_SuperTileProxy != null)
             {
-                m_SuperTileProxy.GetTileData(this, position, tilemap, tileData);
+                m_SuperTileProxy.GetTileData(this, position, tilemap, ref tileData);
                 return;
             }
             tileData.sprite = m_Sprite;
@@ -199,7 +199,7 @@ namespace SuperTiled2Unity
         {
             if (m_SuperTileProxy != null)
             {
-                return m_SuperTileProxy.GetTileAnimationData(this, position, tilemap, tileAnimationData);
+                return m_SuperTileProxy.GetTileAnimationData(this, position, tilemap, ref tileAnimationData);
             }
 
             if (m_AnimationSprites != null && m_AnimationSprites.Length > 1)
