@@ -186,7 +186,18 @@ namespace SuperTiled2Unity
             if (m_AnimationSprites != null && m_AnimationSprites.Length > 1)
             {
                 tileAnimationData.animatedSprites = m_AnimationSprites;
-                tileAnimationData.animationSpeed = 1.0f;
+                var tileDataSupplier = MySuperTileDataSupplier.Instance;
+                var animationSpeed = 1.0f;
+                if (tileDataSupplier != null)
+                {
+                    animationSpeed = tileDataSupplier.GetSuperTileAnimationSpeed(m_TileId, tilemap);
+                    Debug.Log("animationSpeed: " + animationSpeed);
+                }
+                else
+                {
+                    Debug.Log("MySuperTileDataSupplier.Instance is null");
+                }
+                tileAnimationData.animationSpeed = animationSpeed;
                 tileAnimationData.animationStartTime = 0;
                 return true;
             }
