@@ -17,7 +17,7 @@ namespace SuperTiled2Unity.Editor
         private SuperMap m_MapComponent;
         private Grid m_GridComponent;
 
-        private GlobalTileDatabase m_GlobalTileDatabase;
+        public GlobalTileDatabase m_GlobalTileDatabase;
         private Dictionary<uint, TilePolygonCollection> m_TilePolygonDatabase;
         private int m_NextTileAsObjectId;
 
