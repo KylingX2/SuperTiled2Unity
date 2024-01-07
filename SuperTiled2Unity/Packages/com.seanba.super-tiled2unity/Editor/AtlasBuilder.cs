@@ -195,7 +195,8 @@ namespace SuperTiled2Unity.Editor
             // Create the texture with a starter color that stands out
             m_CurrentAtlas = new Texture2D(m_AtlasWidth, m_AtlasHeight, TextureFormat.ARGB32, false);
             m_CurrentAtlas.wrapMode = TextureWrapMode.Clamp;
-            m_CurrentAtlas.filterMode = FilterMode.Point;
+            //m_CurrentAtlas.filterMode = FilterMode.Point;
+            m_CurrentAtlas.filterMode = FilterMode.Bilinear;
             m_CurrentAtlas.name = textureName;
             m_CurrentAtlas.SetPixels32(Enumerable.Repeat(NamedColors.DeepPink, m_AtlasWidth * m_AtlasHeight).ToArray());
 

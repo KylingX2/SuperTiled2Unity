@@ -14,7 +14,8 @@ namespace SuperTiled2Unity.Editor
                 TextureImporter textureImporter = assetImporter as TextureImporter;
                 textureImporter.textureType = TextureImporterType.Sprite;
                 textureImporter.mipmapEnabled = false;
-                textureImporter.filterMode = FilterMode.Point;
+                //textureImporter.filterMode = FilterMode.Point;
+                textureImporter.filterMode = FilterMode.Bilinear;
                 textureImporter.textureCompression = TextureImporterCompression.Uncompressed;
 
                 TextureImporterSettings settings = new TextureImporterSettings();
