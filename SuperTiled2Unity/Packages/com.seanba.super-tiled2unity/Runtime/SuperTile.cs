@@ -197,7 +197,7 @@ namespace SuperTiled2Unity
             return false;
         }
 
-        protected float GetCustomPropertyValueAsFloatOrDefault(string name, float defaultValue)
+        public float GetCustomPropertyValueAsFloatOrDefault(string name, float defaultValue)
         {
             var customProperty = GetCustomProperty(name);
             if (customProperty == null)
@@ -207,7 +207,7 @@ namespace SuperTiled2Unity
             return customProperty.GetValueAsFloat();
         }
 
-        protected CustomProperty GetCustomProperty(string name)
+        public CustomProperty GetCustomProperty(string name)
         {
             for (var i = 0; i < m_CustomProperties.Count; i++)
             {
